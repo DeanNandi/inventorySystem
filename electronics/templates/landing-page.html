@@ -1,0 +1,427 @@
+{% load static %}
+
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>DMI Inventory System</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/logo.jpeg' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header id="header" class="header d-flex align-items-center fixed-top">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+
+    <a href="http://127.0.0.1:8000/" class="logo d-flex align-items-center  me-auto me-lg-0">
+
+      <i class="bi bi-clipboard2-pulse"></i>
+      <h1>DMI Inventory</h1>
+    </a>
+
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a href="http://127.0.0.1:8000/electronics/landing-page" class="active">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li class="dropdown"><a href="#"><span>Users</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+          <ul>
+            <li><a href="http://127.0.0.1:8000/">Administrator</a></li>
+            <li><a href="http://127.0.0.1:8000/admin/login/?next=/admin/">Developer</a></li>
+          </ul>
+        </li>
+                <li><a href="#">Services</a></li>
+<!--                <li><a href="#">Contact</a></li>-->
+                {% if user.is_authenticated %}
+                <li> <a href="#">Welcome! {{user.username}}</a></li>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">
+                    Log-out <i class="fas fa-sign-out-alt"></i>
+                </a>
+                {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">
+                    Log in <i class="fas fa-sign-in-alt"></i>
+                </a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">
+                    Sign up <i class="fas fa-user-plus"></i>
+                </a>
+                {% endif %}
+            </ul>
+        </nav><!-- .navbar -->
+
+      <div class="header-social-links">
+          <i class="bi bi-browser-chrome"></i>&nbsp;&nbsp;&nbsp;
+          <i class="bi bi-browser-safari"></i>&nbsp;&nbsp;&nbsp;
+          <i class="bi bi-browser-firefox"></i>&nbsp;&nbsp;&nbsp;
+          <i class="bi bi-browser-edge"></i>
+      </div>
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+  </header><!-- End Header -->
+
+{% if user.is_authenticated %}
+{% load crispy_forms_tags %}
+{% if user.first_name == 'Administrator'  %}
+ <section id="hero1" class="hero d-flex flex-column justify-content-center align-items-center" data-aos="fade"
+         data-aos-delay="1500">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+
+          <h2> <span>Hello {{ user.first_name }} {{ user.last_name }}!  </span> <br> Analyse all <br>  The recorded Data.</h2>
+          <p></p>
+        </div>
+        </div>
+
+        {% else %}
+
+    <section id="hero" class="hero d-flex flex-column justify-content-center align-items-center" data-aos="fade"
+             data-aos-delay="1500">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+
+                    <h2><span>Hello {{ user.first_name }} {{ user.last_name }}!  </span> <br> Record and Update<br> The
+                        Inventory.</h2>
+                    <p></p>
+                </div>
+            </div>
+            {% endif %}
+
+
+
+   <main id="main" data-aos="fade" data-aos-delay="1500">
+
+  <!--    WE TRY AND PUT A FOR LOOP SHOWING LECS AND UNITS-->
+
+    <!-- ======= Gallery Section ======= -->
+  {% if user.first_name == 'Administrator'  %}
+    <section id="gallery1" class="gallery">
+      <div class="container-fluid">
+
+        <div class="row gy-4 justify-content-center">
+          <div class="col-xl-4 col-lg-4 col-md-4">
+            <div class="gallery-item h-100">
+              <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146ZM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5Z"/>
+              </svg>
+              <br><br>
+                    <h5 class="card-title">Home</h5>
+
+                    <p class="card-text">Home-page</p>
+                   <div class="gallery-links d-flex align-items-center justify-content">
+                          <a href="/" class="details-link"><i class="bi bi-link-45deg"></i></a>
+              </div>
+            </div>
+          </div><!-- End Gallery Item -->
+
+
+                        <!--            Reports-->
+
+          <div class="col-xl-4 col-lg-4 col-md-4">
+                <div class="gallery-item h-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
+                         class="bi bi-journal-bookmark-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8V1z"/>
+                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                    </svg>
+                    <br><br>
+                    <h5 class="card-title">Gadgets Reports</h5>
+
+                    <p class="card-text">General Summary of all data</p>
+                    <div class="gallery-links d-flex align-items-center justify-content">
+
+                        <a href="reports" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                </div>
+            </div><!-- End Gallery Item -->
+
+
+<!--                    profile-->
+
+          <div class="col-xl-4 col-lg-4 col-md-4">
+                <div class="gallery-item h-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
+                         class="bi bi-journal-arrow-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M8 5a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5A.5.5 0 0 1 8 5z"/>
+                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                    </svg>
+                    <br><br>
+                    <h5 class="card-title">Issuing Report</h5>
+
+                    <p class="card-text">Report of all issued products</p>
+                    <div class="gallery-links d-flex align-items-center justify-content">
+                        <a href="issuing-report" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                </div>
+            </div><!-- End Gallery Item -->
+
+          <div class="col-xl-4 col-lg-4 col-md-4">
+                <div class="gallery-item h-100">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
+                     class="bi bi-journal-bookmark-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8V1z"/>
+                    <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                    <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                </svg>
+                <br><br>
+                    <h5 class="card-title">Stock Collection</h5>
+
+                    <p class="card-text">General Summary of all data</p>
+                    <div class="gallery-links d-flex align-items-center justify-content">
+                        <a href="stock-collection" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                </div>
+            </div><!-- End Gallery Item -->
+<!--            log-out-->
+
+          <div class="col-xl-4 col-lg-4 col-md-4">
+                <div class="gallery-item h-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
+                         class="bi bi-x-octagon" viewBox="0 0 16 16">
+                        <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                    <br><br>
+                    <h5 class="card-title">Log-out</h5>
+
+                    <p class="card-text">xxx</p>
+                    <div class="gallery-links d-flex align-items-center justify-content">
+                        <a href="logout" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                </div>
+            </div><!-- End Gallery Item -->
+   {% else %}
+    <section id="gallery" class="gallery">
+      <div class="container-fluid">
+
+        <div class="row gy-4 justify-content-center">
+          <div class="col-xl-4 col-lg-4 col-md-6">
+            <div class="gallery-item h-100">
+              <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146ZM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5Z"/>
+              </svg>
+              <br><br>
+                    <h5 class="card-title">Home</h5>
+
+                    <p class="card-text">Home-page</p>
+                   <div class="gallery-links d-flex align-items-center justify-content">
+                          <a href="/" class="details-link"><i class="bi bi-link-45deg"></i></a>
+              </div>
+            </div>
+          </div><!-- End Gallery Item -->
+
+
+<!--                    record new supplies -->
+
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="gallery-item h-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
+                         class="bi bi-body-text" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
+                    </svg>
+                    <br><br>
+                    <h5 class="card-title">Donors, Suppliers & Purchases</h5>
+
+                    <p class="card-text">Record Information on Donors, <br> Suppliers  and New Purchases  </p>
+                    <div class="gallery-links d-flex align-items-center justify-content">
+
+                        <a href="supplies-page"
+                           class="details-link"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                </div>
+            </div><!-- End Gallery Item -->
+
+<!--                        Assigning Gadgets To Staff-->
+
+            <div class="col-xl-3.5 col-lg-4 col-md-6">
+                <div class="gallery-item h-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
+                         class="bi bi-vector-pen" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828L10.646.646zm-1.8 2.908-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z"/>
+                        <path fill-rule="evenodd" d="M2.832 13.228 8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086.086-.026z"/>
+                    </svg>
+                    <br><br>
+                    <h5 class="card-title">Assign Gadgets and Equipments</h5>
+
+                    <p class="card-text">Assign and Record all gadgets and equipments to staff</p>
+                    <div class="gallery-links d-flex align-items-center justify-content">
+
+                        <a href="gadgets-page" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                </div>
+            </div><!-- End Gallery Item -->
+
+                        <!--            Reports-->
+
+            <div class="col-xl-3.5 col-lg-4 col-md-6">
+                <div class="gallery-item h-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
+                         class="bi bi-journal-bookmark-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8V1z"/>
+                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                    </svg>
+                    <br><br>
+                    <h5 class="card-title">Gadgets Reports</h5>
+
+                    <p class="card-text">General Summary of all data</p>
+                    <div class="gallery-links d-flex align-items-center justify-content">
+
+                        <a href="reports" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                </div>
+            </div><!-- End Gallery Item -->
+
+
+<!--                    profile-->
+
+            <div class="col-xl-3.5 col-lg-4 col-md-6">
+                <div class="gallery-item h-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
+                         class="bi bi-journal-arrow-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M8 5a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5A.5.5 0 0 1 8 5z"/>
+                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                    </svg>
+                    <br><br>
+                    <h5 class="card-title">Issuing Report</h5>
+
+                    <p class="card-text">Report of all issued products</p>
+                    <div class="gallery-links d-flex align-items-center justify-content">
+                        <a href="issuing-report" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                </div>
+            </div><!-- End Gallery Item -->
+
+<!--            log-out-->
+
+            <div class="col-xl-3.5 col-lg-4 col-md-6">
+                <div class="gallery-item h-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
+                         class="bi bi-x-octagon" viewBox="0 0 16 16">
+                        <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                    <br><br>
+                    <h5 class="card-title">Log-out</h5>
+
+                    <p class="card-text">xxx</p>
+                    <div class="gallery-links d-flex align-items-center justify-content">
+                        <a href="logout" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                </div>
+            </div><!-- End Gallery Item -->
+   {% endif %}
+
+   {% else %}
+            <section id="hero3" class="hero d-flex flex-column justify-content-center align-items-center"
+                     data-aos="fade" data-aos-delay="1500">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 text-center">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-6 text-center">
+                                    <h2><span>Welcome!</span> <br>Login or Sign-Up to access The Inventory.</h2>
+                                    <p></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+      </div>
+    </section>
+
+        </div>
+      </div>
+    </section>
+   </main>
+
+
+        </div>
+
+    </section><!-- End Gallery Section -->
+
+    </div>
+ </section>
+</section>
+{% endif %}
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="copyright">
+
+            &copy; Copyright <strong><span>NandiCorp</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/photofolio-bootstrap-photography-website-template/ -->
+            Designed by <a href="#">Nandi-Dean</a>
+        </div>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<div id="preloader">
+    <div class="line"></div>
+</div>
+
+<!-- Vendor JS Files -->
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+<script src="{% static 'vendor/aos/aos.js' %}"></script>
+<script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+<!-- Template Main JS File -->
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+
+
+
+
+
