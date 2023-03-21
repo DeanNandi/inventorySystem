@@ -1,22 +1,13 @@
 from django import forms
 from .models import Laptops, Phones, Pcs, Tablets, Device, Procurements, Donors, Suppliers, Purchases, Issuing
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
 
-class UserRegistrationForm(UserCreationForm):
-    email = forms.EmailField(help_text='A valid email address, please.', required=True)
-
-    class Meta:
-        model = get_user_model()
-        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
-
-    def save(self, commit=True):
-        user = super(UserRegistrationForm, self).save(commit=False)
-        user.email = self.cleaned_data['email']
-        if commit:
-            user.save()
-        return user
+class CreateUserForm(UserCreationForm):
+	class Meta:
+		model = User
+		fields = ['username', 'email', 'password1', 'password2']
 
 
 class DonorsForm(forms.ModelForm):

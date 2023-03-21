@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('stock-collection', views.stock, name='stock-collection'),
@@ -8,9 +8,9 @@ urlpatterns = [
     path('purchases-report', views.purchases_reports, name='purchases-report'),
     path('donors-report', views.donors_reports, name='donors-report'),
     path('issuing-report', views.issued_out_reports, name='issuing-report'),
-    path("register", views.register, name="register"),
-    path('login', views.custom_login, name='login'),
-    path('logout', views.custom_logout, name='logout'),
+    path("register", views.registerPage, name="register"),
+    path('login', views.loginPage, name='login'),
+    path('logout', views.logoutUser, name='logout'),
 
 
     path('', views.landing_page),

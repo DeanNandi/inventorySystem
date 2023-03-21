@@ -1,76 +1,53 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
 from .models import Electronics, Laptops, Phones, Pcs, Tablets, Device, Procurements, Donors, Suppliers, Purchases, \
     Issuing
 from .forms import LaptopForm, PhonesForm, PcsForm, TabletsForm, DeviceForm, ProcurementsForm, DonorsForm, SuppliersForm, \
                    PurchasesForm, IssuesForm
-from django.contrib.auth import get_user_model, login, authenticate
-from .forms import UserRegistrationForm
 from django.contrib import messages
-from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login, logout
+from .forms import CreateUserForm
 
 
-def register(request):
-    # Logged in user can't register a new account
+def registerPage(request):
     if request.user.is_authenticated:
-        return redirect("http://127.0.0.1:8000/landing-page")
-
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, f"New account created: {user.username}")
-            return redirect('http://127.0.0.1:8000/landing-page')
-        else:
-            for error in list(form.errors.values()):
-                messages.error(request, error)
-
+        return redirect('/')
     else:
-        form = UserRegistrationForm()
+        form = CreateUserForm()
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request, 'Account was created for ' + user)
 
-    return render(
-        request = request,
-        template_name = "register.html",
-        context={"form":form}
-        )
+                return redirect('/')
+
+        context = {'form': form}
+        return render(request, 'register.html', context)
 
 
-@login_required
-def custom_logout(request):
-    logout(request)
-    return redirect("http://127.0.0.1:8000/landing-page")
-
-
-def custom_login(request):
+def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('http://127.0.0.1:8000/landing-page')
+        return redirect('/')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-    if request.method == 'POST':
-        form = AuthenticationForm(request=request, data=request.POST)
-        if form.is_valid():
-            user = authenticate(
-                username=form.cleaned_data['username'],
-                password=form.cleaned_data['password'],
-            )
+            user = authenticate(request, username=username, password=password)
+
             if user is not None:
                 login(request, user)
+                return redirect('/')
+            else:
+                messages.info(request, 'Username OR password is incorrect')
 
-                return redirect('http://127.0.0.1:8000/landing-page')
+        context = {}
+        return render(request, 'login.html', context)
 
-        else:
-            for error in list(form.errors.values()):
-                messages.error(request, error)
-
-    form = AuthenticationForm()
-
-    return render(
-        request=request,
-        template_name="login.html",
-        context={'form': form}
-    )
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
 
 
 def stock(request):
