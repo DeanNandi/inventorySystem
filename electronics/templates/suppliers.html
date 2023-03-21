@@ -113,7 +113,6 @@
             <br>
             <br>
         <h3>Currently Viewing Suppliers</h3>
-            {% for suppliers in suppliers %}
   <table class="table">
   <thead>
     <tr><h1>
@@ -129,6 +128,7 @@
 <tbody>
 
         <tr>
+                        {% for suppliers in suppliers %}
         <th class="table-primary">{{ suppliers.Name }}</th>
         <td class="table-primary">{{ suppliers.email }}</td>
         <td class="table-primary">{{ suppliers.Items_supplied }}</td>

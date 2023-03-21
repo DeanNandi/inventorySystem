@@ -114,7 +114,6 @@
     </div>
             <br>
     <h3>Currently Viewing {{ header }}</h3>
-            {%for item in items %}
           <table class="table">
   <thead>
     <tr>
@@ -133,6 +132,7 @@
 <tbody>
 
         <tr>
+                        {%for item in items %}
         <th class="table-primary">{{ item.pk }}</th>
         <td class="table-primary">{{ item.Item }}</td>
         <td class="table-primary">{{ item.Number }}</td>

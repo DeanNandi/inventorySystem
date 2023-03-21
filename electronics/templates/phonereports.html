@@ -96,7 +96,6 @@
 
             <br>
 
-            {% for phones in phones %}
 
 
           <table class="table">
@@ -114,6 +113,7 @@
 <tbody>
 
         <tr>
+                        {% for phones in phones %}
         <th class="table-primary">{{ phones.pk }}</th>
         <td class="table-primary">{{ phones.Type }}</td>
         <td class="table-primary">{{ phones.Model }}</td>

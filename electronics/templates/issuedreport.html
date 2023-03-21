@@ -97,7 +97,6 @@
             <br>
             <br>
         <h3>Currently Viewing Items Issued</h3>
-            {% for issuing in issuing %}
   <table class="table">
   <thead>
     <tr><h1>
@@ -112,6 +111,7 @@
 <tbody>
 
         <tr>
+                        {% for issuing in issuing %}
         <th class="table-primary">{{ issuing.Name }}</th>
         <td class="table-primary">{{ issuing.Issued_to }}</td>
         <td class="table-primary">{{ issuing.Quantity }}</td>

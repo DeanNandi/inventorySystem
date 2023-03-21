@@ -175,7 +175,6 @@
 {% elif header == 'Purchases' %}
 
         <h3>Currently Viewing {{ header }}</h3>
-            {% for purchases in purchases %}
   <table class="table">
   <thead>
     <tr><h1>
@@ -191,6 +190,7 @@
 <tbody>
 
         <tr>
+                        {% for purchases in purchases %}
         <th class="table-primary">{{ purchases.Name }}</th>
         <td class="table-primary">{{ purchases.Quantity }}</td>
         <td class="table-primary">{{ purchases.Price }}</td>

@@ -95,7 +95,6 @@
     </div>
             <br>
 
-            {% for procurements in procurements %}
 
 
           <table class="table">
@@ -116,6 +115,7 @@
 <tbody>
 
         <tr>
+                        {% for procurements in procurements %}
         <th class="table-primary">{{ procurements.pk }}</th>
         <td class="table-primary">{{ procurements.Item }}</td>
         <td class="table-primary">{{ procurements.Number }}</td>

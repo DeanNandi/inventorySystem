@@ -96,7 +96,6 @@
 
             <br>
 
-            {% for tablets in tablets %}
 
 
           <table class="table">
@@ -114,6 +113,7 @@
 <tbody>
 
         <tr>
+                        {% for tablets in tablets %}
         <th class="table-primary">{{ tablets.pk }}</th>
         <td class="table-primary">{{ tablets.Type }}</td>
         <td class="table-primary">{{ tablets.Model }}</td>

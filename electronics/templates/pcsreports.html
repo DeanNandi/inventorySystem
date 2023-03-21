@@ -96,7 +96,7 @@
 
             <br>
 
-            {% for pcs in pcs %}
+
 
 
           <table class="table">
@@ -114,6 +114,7 @@
 <tbody>
 
         <tr>
+                        {% for pcs in pcs %}
         <th class="table-primary">{{ pcs.pk }}</th>
         <td class="table-primary">{{ pcs.Type }}</td>
         <td class="table-primary">{{ pcs.Model }}</td>

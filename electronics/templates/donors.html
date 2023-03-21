@@ -113,7 +113,6 @@
             <br>
             <br>
         <h3>Currently Viewing Donors</h3>
-            {% for donors in donors %}
   <table class="table">
   <thead>
     <tr><h1>
@@ -129,6 +128,7 @@
 <tbody>
 
         <tr>
+                        {% for donors in donors %}
         <th class="table-primary">{{ donors.Name }}</th>
         <td class="table-primary">{{ donors.email }}</td>
         <td class="table-primary">{{ donors.Items_supplied }}</td>
